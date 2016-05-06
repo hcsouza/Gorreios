@@ -33,7 +33,6 @@ func SoapRequestFactory() (*SoapRequest, error) {
 	request := new(SoapRequest)
 	request.SoapenvNamespace1 = "http://schemas.xmlsoap.org/soap/envelope/"
 	request.SoapenvNamespace2 = "http://cliente.bean.master.sigep.bsb.correios.com.br/"
-
 	return request, nil
 }
 

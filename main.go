@@ -1,20 +1,26 @@
 package main
 
 import (
+	"flag"
 	"encoding/xml"
 	"fmt"
 	"github.com/hcsouza/Gorreios/GorreiosHttp"
 )
 
 func main() {
-	request, err := GorreiosHttp.SoapRequestFactory()
+
+	uriCorreios := flag.String("uriCorreios",  "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente", "service CEP URI")
+	cep := flag.String("cep", "01508000", "cep number")
+	flag.Parse()
+
+	GorreiosRequest, err := GorreiosHttp.SoapRequestFactory()
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	request.SetRequest("https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente", "ConsultaCEP", "01508000")
+	GorreiosRequest.SetRequest(*uriCorreios, "ConsultaCEP", *cep)
 
-	byteBody, err := request.Do()
+	byteBody, err := GorreiosRequest.Do()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -31,6 +37,6 @@ func main() {
 	fmt.Println(
 		fmt.Sprintf("Bairro:  %s\n", getCEP.Bairro),
 		fmt.Sprintf("Cidade:  %s\n", getCEP.Cidade),
-		fmt.Sprintf("Endereco:  %s\n", getCEP.End),
+		fmt.Sprintf("Endereco: %s\n", getCEP.End),
 	)
 }
