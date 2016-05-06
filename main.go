@@ -7,14 +7,12 @@ import (
 )
 
 func main() {
-
 	request, err := GorreiosHttp.SoapRequestFactory()
-
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	request.SetRequest("https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl", "ConsultaCEP", "01508000")
+	request.SetRequest("https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente", "ConsultaCEP", "01508000")
 
 	byteBody, err := request.Do()
 	if err != nil {
@@ -28,9 +26,11 @@ func main() {
 		fmt.Println(err)
 	}
 
-	getCEP := respCEP.Body.CepResponse.Return_
+	getCEP := respCEP.Body.CepResponse.Return
 
 	fmt.Println(
-		fmt.Sprintf("teste:  %s", getCEP.Bairro),
+		fmt.Sprintf("Bairro:  %s\n", getCEP.Bairro),
+		fmt.Sprintf("Cidade:  %s\n", getCEP.Cidade),
+		fmt.Sprintf("Endereco:  %s\n", getCEP.End),
 	)
 }

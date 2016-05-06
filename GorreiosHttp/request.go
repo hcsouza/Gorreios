@@ -6,23 +6,23 @@ import (
 	"github.com/franela/goreq"
 	"io/ioutil"
 	"time"
-)
+	)
 
 type SoapRequest struct {
 	address           string
-	XMLName           xml.Name `xml:"soapenv:Envelope"`
-	SoapenvNamespace1 string   `xml:"xmlns:soapenv,attr"`
-	SoapenvNamespace2 string   `xml:"xmlns:web,attr"`
+	XMLName           xml.Name `xml:"x:Envelope"`
+	SoapenvNamespace1 string   `xml:"xmlns:x,attr"`
+	SoapenvNamespace2 string   `xml:"xmlns:cli,attr"`
 	Header            RequestHeader
 	Body              RequestBody
 }
 
 type RequestHeader struct {
-	XMLName xml.Name `xml:"soapenv:Header"`
+	XMLName xml.Name `xml:"x:Header"`
 }
 
 type RequestBody struct {
-	XMLName xml.Name `xml:"soapenv:Body"`
+	XMLName xml.Name `xml:"x:Body"`
 	Content RequestContent
 }
 
@@ -38,7 +38,7 @@ func SoapRequestFactory() (*SoapRequest, error) {
 }
 
 type RequestContentCEP struct {
-	XMLName xml.Name `xml:"http://cliente.bean.master.sigep.bsb.correios.com.br/ consultaCEP"`
+	XMLName xml.Name `xml:"cli:consultaCEP"`
 	Cep     string   `xml:"cep,omitempty"`
 }
 
@@ -70,6 +70,7 @@ func (this *SoapRequest) Do() ([]byte, error) {
 		ContentType: "text/xml;charset=UTF8",
 		Body:        formattedXml,
 		Timeout:     30 * time.Second,
+		//ShowDebug: 	 true,
 	}.Do()
 	if err != nil {
 		return nil, err

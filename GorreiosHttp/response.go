@@ -23,11 +23,11 @@ type SoapCepBodyResponse struct {
 
 type ConsultaCepResponse struct {
 	XMLName xml.Name  `xml:"http://cliente.bean.master.sigep.bsb.correios.com.br/ consultaCEPResponse"`
-	Return_ *Endereco `xml:"return,omitempty"`
+	Return *Endereco `xml:"return,omitempty"`
 }
 
 type Endereco struct {
-	XMLName      xml.Name `xml:"http://cliente.bean.master.sigep.bsb.correios.com.br/ enderecoERP"`
+	XMLName      xml.Name `xml:"return,omitempty"`
 	Bairro       string   `xml:"bairro,omitempty"`
 	Cep          string   `xml:"cep,omitempty"`
 	Cidade       string   `xml:"cidade,omitempty"`
