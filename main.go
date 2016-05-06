@@ -1,24 +1,44 @@
 package main
 
 import (
-	"flag"
 	"encoding/xml"
 	"fmt"
+	"github.com/go-martini/martini"
 	"github.com/hcsouza/Gorreios/GorreiosHttp"
+	"net/http"
 )
 
 func main() {
 
-	uriCorreios := flag.String("uriCorreios",  "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente", "service CEP URI")
-	cep := flag.String("cep", "01508000", "cep number")
-	flag.Parse()
+	mserver := martini.Classic()
+
+	mserver.Get("/", func() string {
+		return "http://gorreios.com.br/cep/:id"
+	})
+
+	mserver.Get("/cep/:id", func(params martini.Params, writer http.ResponseWriter) string {
+		writer.Header().Set("Content-Type", "application/json")
+		return searchCep(params["id"])
+	})
+
+	mserver.Run()
+
+}
+
+func searchCep(id string) string {
+
+	// uriCorreios := String("uriCorreios", "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente", "service CEP URI")
+	// cep := flag.String("cep", "01508000", "cep number")
+	// flag.Parse()
+	uriCorreios := "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente"
 
 	GorreiosRequest, err := GorreiosHttp.SoapRequestFactory()
+
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	GorreiosRequest.SetRequest(*uriCorreios, "ConsultaCEP", *cep)
+	GorreiosRequest.SetRequest(uriCorreios, "ConsultaCEP", id)
 
 	byteBody, err := GorreiosRequest.Do()
 	if err != nil {
@@ -34,9 +54,6 @@ func main() {
 
 	getCEP := respCEP.Body.CepResponse.Return
 
-	fmt.Println(
-		fmt.Sprintf("Bairro:  %s\n", getCEP.Bairro),
-		fmt.Sprintf("Cidade:  %s\n", getCEP.Cidade),
-		fmt.Sprintf("Endereco: %s\n", getCEP.End),
-	)
+	return getCEP.End
+
 }
