@@ -23,17 +23,17 @@ type SoapCepBodyResponse struct {
 
 type ConsultaCepResponse struct {
 	XMLName xml.Name  `xml:"http://cliente.bean.master.sigep.bsb.correios.com.br/ consultaCEPResponse"`
-	Return *Endereco `xml:"return,omitempty"`
+	Return  *Endereco `xml:"return,omitempty"`
 }
 
 type Endereco struct {
-	XMLName      xml.Name `xml:"return,omitempty"`
-	Bairro       string   `xml:"bairro,omitempty"`
-	Cep          string   `xml:"cep,omitempty"`
-	Cidade       string   `xml:"cidade,omitempty"`
-	Complemento  string   `xml:"complemento,omitempty"`
-	Complemento2 string   `xml:"complemento2,omitempty"`
-	End          string   `xml:"end,omitempty"`
-	Id           int64    `xml:"id,omitempty"`
-	Uf           string   `xml:"uf,omitempty"`
+	//XMLName      xml.Name `xml:"return,omitempty"`
+	Bairro       string `xml:"bairro,omitempty"`
+	Cep          string `xml:"cep,omitempty"`
+	Cidade       string `xml:"cidade,omitempty"`
+	Complemento  string `xml:"complemento,omitempty"`
+	Complemento2 string `xml:"complemento2,omitempty"`
+	End          string `xml:"end,omitempty"`
+	Id           int64  `xml:"id,omitempty"`
+	Uf           string `xml:"uf,omitempty"`
 }

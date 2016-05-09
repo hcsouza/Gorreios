@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"github.com/go-martini/martini"
@@ -17,7 +18,7 @@ func main() {
 	})
 
 	mserver.Get("/cep/:id", func(params martini.Params, writer http.ResponseWriter) string {
-		writer.Header().Set("Content-Type", "application/json")
+		writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 		return searchCep(params["id"])
 	})
 
@@ -27,11 +28,7 @@ func main() {
 
 func searchCep(id string) string {
 
-	// uriCorreios := String("uriCorreios", "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente", "service CEP URI")
-	// cep := flag.String("cep", "01508000", "cep number")
-	// flag.Parse()
 	uriCorreios := "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente"
-
 	GorreiosRequest, err := GorreiosHttp.SoapRequestFactory()
 
 	if err != nil {
@@ -53,7 +50,8 @@ func searchCep(id string) string {
 	}
 
 	getCEP := respCEP.Body.CepResponse.Return
+	end, _ := json.Marshal(getCEP)
 
-	return getCEP.End
+	return string(end)
 
 }
