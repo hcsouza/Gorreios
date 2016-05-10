@@ -41,7 +41,7 @@ type RequestContentCEP struct {
 	Cep     string   `xml:"cep,omitempty"`
 }
 
-func (this *SoapRequest) SetRequest(serviceAddress string, contentType string, content string) error {
+func (this *SoapRequest) CreateRequest(serviceAddress string, contentType string, content string) error {
 
 	this.address = serviceAddress
 
@@ -57,7 +57,7 @@ func (this *SoapRequest) SetRequest(serviceAddress string, contentType string, c
 	return nil
 }
 
-func (this *SoapRequest) Do() ([]byte, error) {
+func (this *SoapRequest) Execute() ([]byte, error) {
 	formattedXml, err := xml.Marshal(this)
 	if err != nil {
 		return nil, err
