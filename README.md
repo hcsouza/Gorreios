@@ -2,6 +2,7 @@
 Golang
 
 Package para consulta de CEP diretamente no SOAP dos Correios
+( Primeira App teste em GO )
 
 Usage
   * go run main.go
